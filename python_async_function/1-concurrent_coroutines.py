@@ -1,23 +1,22 @@
 #!/usr/bin/env python3
-""" Given the parameters and the return values,
-    add type annotations to the function
-    Hint: look into TypeVar
-    def safely_get_value(dct, key, default = None):
-        if key in dct:
-            return dct[key]
-        else:
-            return default """
-from typing import Mapping, Any, Union, TypeVar
-T = TypeVar('T')
+""" Import wait_random from the previous python file that you’ve written and
+    write an async routine called wait_n that takes in 2 int arguments:
+    max_delay and n. You will spawn wait_random n times with the specified
+    max_delay. wait_n should return the list of all the delays (float values).
+    The list of the delays should be in ascending order without using sort()
+    because of concurrency. """
+import asyncio
+from typing import List
+wait_random = __import__('0-basic_async_syntax').wait_random
 
 
-def safely_get_value(
-        dct: Mapping,
-        key: Any,
-        default: Union[T, None] = None
-        ) -> Union[Any, T]:
-    """ More involved type annotations """
-    if key in dct:
-        return dct[key]
-    else:
-        return default
+async def wait_n(n: int, max_delay: int) -> List[float]:
+    """ Let's execute multiple coroutines at the same time with async  """
+    delays: List[float] = []
+    all_delays: List[float] = []
+    for i in range(n):
+        delays.append(wait_random(max_delay))
+    for delay in asyncio.as_completed(delays):
+        earliest_result = await delay
+        all_delays.append(earliest_result)
+    return all_delays
