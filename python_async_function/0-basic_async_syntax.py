@@ -1,23 +1,14 @@
 #!/usr/bin/env python3
-""" Given the parameters and the return values,
-    add type annotations to the function
-    Hint: look into TypeVar
-    def safely_get_value(dct, key, default = None):
-        if key in dct:
-            return dct[key]
-        else:
-            return default """
-from typing import Mapping, Any, Union, TypeVar
-T = TypeVar('T')
+""" The basics of async  """
+import random
+import asyncio
 
 
-def safely_get_value(
-        dct: Mapping,
-        key: Any,
-        default: Union[T, None] = None
-        ) -> Union[Any, T]:
-    """ More involved type annotations """
-    if key in dct:
-        return dct[key]
-    else:
-        return default
+async def wait_random(max_delay: int = 10) -> float:
+    """ asynchronous coroutine that takes in an integer argument
+        (max_delay, with a default value of 10) named wait_random that waits
+        for a random delay between 0 and max_delay (included and float value)
+        seconds and eventually returns it.  """
+    random_float = random.uniform(0, max_delay)
+    await asyncio.sleep(random_float)
+    return random_float
